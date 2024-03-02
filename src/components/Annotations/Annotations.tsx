@@ -8,7 +8,7 @@ export default function Annotations(){
     if (!user) return <></>
     if (user) {
         return <>
-            <RowAnnotations user={user!}/>
+            <RowAnnotations user={user!} renderAnnotations={true}/>
         </>
     }
 }

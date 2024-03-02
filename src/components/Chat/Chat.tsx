@@ -17,14 +17,14 @@ export default function Chat({toUser}: {toUser: string}) {
         navigate('/login')
     }
 
-    const {data, error, isLoading} = getHistoryChat({
+    const {data, isLoading} = getHistoryChat({
         receiver: useUser.user?.id!,
         sender: toUser
     })
 
     useEffect(() => {
         if (data) {
-            const texts = data.history.map((message) => message.text);
+            const texts = data.history.map((message: any) => message.text);
             setMessages((prevMessages) => [...texts, ...prevMessages]);
         }
     }, [data]);
@@ -42,6 +42,7 @@ export default function Chat({toUser}: {toUser: string}) {
             console.log("WebSocket closed", event);
         };
         socket.onopen = (event) => {
+            console.log(event)
             const initData = {
                 receiver: toUser,
                 sender: useUser.user?.id,

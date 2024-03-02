@@ -4,7 +4,6 @@ import App from './App.tsx'
 import './index.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./components/Home/Home.tsx";
-import Private from "./components/Private/Private.tsx";
 import {AuthProvider} from "./contexts/Auth/AuthProvider.tsx";
 import {RequireAuth} from "./contexts/Auth/RequireAuth.tsx";
 import FormCreateAccount from "./components/Login/CreateAccount.tsx";

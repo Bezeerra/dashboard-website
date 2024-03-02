@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {User} from "../../types/User.ts";
 import {ApiUser} from "../../api/ApiUser.ts";
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }: any) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 

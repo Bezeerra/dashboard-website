@@ -3,7 +3,7 @@ import {AuthContext} from "./AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 
 
-export const NoAuthRequire = ({ children }) => {
+export const NoAuthRequire = ({ children }: any) => {
 
     const auth = useContext(AuthContext)
     const navigate = useNavigate();

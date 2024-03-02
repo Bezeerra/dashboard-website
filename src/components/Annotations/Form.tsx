@@ -18,7 +18,7 @@ interface AnnotationFormProps{
 export default function AnnotationForm({user}: {user: User}) {
 
     const methods = useForm<AnnotationFormProps>();
-    const {formState: {errors}, setError} = methods;
+    const {setError} = methods;
     const classInput = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
     const classLabel = "block text-gray-700 text-sm font-bold mb-2 text-left px-3 pt-2"
     const queryClient = useQueryClient();
@@ -30,7 +30,7 @@ export default function AnnotationForm({user}: {user: User}) {
                 user_id: user?.id!,
                 title: data.title,
                 text: data.text
-            }).then(async (res) => {
+            }).then(async () => {
                 await queryClient.invalidateQueries("annotationsRow")
             }).catch((error: AxiosError) => {
                 handleHookFormErrors(error, setError)

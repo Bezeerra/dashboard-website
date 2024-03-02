@@ -1,6 +1,5 @@
 import {useContext} from "react";
 import {AuthContext} from "../../contexts/Auth/AuthContext.tsx";
-import RowUsers from "../Chat/RowUsers.tsx";
 
 
 export default function Home() {

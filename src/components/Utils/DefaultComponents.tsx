@@ -37,13 +37,16 @@ export function Form({children, onSubmit, className, methods}: FormProps){
 
 
 export function Input({label, type, name, classInput, classLabel, placeholder}: InputProps) {
-    const {register, formState: {errors}} = useFormContext();
+    const {register, formState: {errors}} = useFormContext<any>();
+
     return <div>
         {label && <label className={classLabel || ""}>{label}</label>}
         <input className={classInput || ""}
             type={type} {...register(name)} placeholder={placeholder}
         />
+        {/*@ts-ignore*/}
         {errors?.[name]?.message && <p className="text-red-500 text-xs italic">
+            {/*@ts-ignore*/}
             {errors?.[name]?.message}
         </p>}
     </div>

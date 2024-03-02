@@ -4,11 +4,8 @@ import HeaderBar from "./components/Header/Header.tsx";
 import {useLocation} from "react-router-dom";
 import {QueryClient, QueryClientProvider} from "react-query";
 import NavBarLeft from "./components/Header/NavBarLeft.tsx";
-import {AuthContext} from "./contexts/Auth/AuthContext.tsx";
-import {useContext} from "react";
 
-function App({children}) {
-    const {user} = useContext(AuthContext)
+function App({children}: any) {
     const location = useLocation()
     const queryClient = new QueryClient()
     const registerUser = location.pathname === '/login' || location.pathname === '/create-account'

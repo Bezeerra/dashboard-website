@@ -1,11 +1,9 @@
 import {useGetAnnotations} from "../../api/hooks/Annotations.tsx";
 import AnnotationForm from "./Form.tsx";
 import {User} from "../../types/User.ts";
-import {useState} from "react";
 import PaginatedTable from "../Utils/Paginatios.tsx";
 import {useConfirmDialog} from "../Utils/ConfirmSubmit.tsx";
 import {ApiAnnotation} from "../../api/ApiAnnotation.ts";
-import {handleHookFormErrors} from "../Utils/handleErrors.ts";
 import {useQueryClient} from "react-query";
 
 
@@ -13,13 +11,12 @@ export default function RowAnnotations({user}: {user: User, renderAnnotations: b
 
     const {requestConfirm} = useConfirmDialog();
 
-    const { data, error, isLoading } = useGetAnnotations({ user_id: user.id });
+    const { data, isLoading } = useGetAnnotations({ user_id: user.id });
     const dataAnnotations = data?.data?.annotations;
 
     const  queryClient = useQueryClient()
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
 
     const deleteAnnotation = (annotation_id: string) => {
         const submitDelete = () => {

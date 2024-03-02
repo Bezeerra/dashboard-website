@@ -9,7 +9,7 @@ interface ErrorFromApi {
 }
 
 
-export const handleHookFormErrors = (response: AxiosError, setError: any) => {
+export const handleHookFormErrors = (response: AxiosError | any, setError: any) => {
     const data = response.response?.data?.detail
 
     if (data){
