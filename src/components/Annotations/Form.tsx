@@ -19,15 +19,13 @@ export default function AnnotationForm({user}: {user: User}) {
 
     const methods = useForm<AnnotationFormProps>();
     const {setError} = methods;
-    const classInput = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    const classLabel = "block text-gray-700 text-sm font-bold mb-2 text-left px-3 pt-2"
     const queryClient = useQueryClient();
     const { requestConfirm } = useConfirmDialog();
 
     const onSubmit = (data: any) => {
         const submitAnnotation = () => {
             ApiAnnotation.createAnnotation({
-                user_id: user?.id!,
+                user_id: user.id!,
                 title: data.title,
                 text: data.text
             }).then(async () => {
@@ -44,16 +42,31 @@ export default function AnnotationForm({user}: {user: User}) {
     return <>
         <div className=" ">
             <Form methods={methods} onSubmit={onSubmit}
-                className="bg-white  shadow-md rounded px-8 pt-6 pb-8  mb-4">
+                className="bg-white shadow-md rounded px-8 pt-6 pb-8 max-w-4xl mb-4">
                 <div className="mb-4">
-                    <Input name='title' label={"Title"} classInput={classInput} type="text"
-                           classLabel={classLabel} placeholder="Title Annotation"/>
-                    <TextArea name='text' label={"Text"} classInput={classInput} type="text"
-                           classLabel={classLabel} placeholder="Text Annotation"/>
-                    <div className="w-full flex justify-end">
-                        <SubmitButton className=" ">Create Annotation </SubmitButton>
-                    </div>
-                </div>
+                 <Input
+                  name="title"
+                  label="Title"
+                  classInput="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="text"
+                  classLabel="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2"
+                  placeholder="Title Annotation"
+                />
+              </div>
+              <div className="mb-4">
+                <TextArea
+                  name="text"
+                  label="Text"
+                  classInput="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  classLabel="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2"
+                  placeholder="Text Annotation"
+                />
+              </div>
+              <div className="w-full flex justify-end">
+                <SubmitButton className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  Create Annotation
+                </SubmitButton>
+              </div>
             </Form>
         </div>
     </>

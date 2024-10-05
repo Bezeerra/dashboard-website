@@ -5,6 +5,6 @@ import {Annotation} from "../../types/Annotations.ts";
 
 export const useGetAnnotations = ({user_id}: {user_id: string}): UseQueryResult<{data: {annotations: Annotation[]}}> => {
     return useQuery(["annotationsRow"], async () => {
-        return await ApiAnnotation.getAnnotations({user_id})
+        return await ApiAnnotation.getAnnotationByUser(user_id)
     });
 }

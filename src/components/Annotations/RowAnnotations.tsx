@@ -7,6 +7,34 @@ import {ApiAnnotation} from "../../api/ApiAnnotation.ts";
 import {useQueryClient} from "react-query";
 
 
+function AnnotationCard({ annotation, onDelete }: any) {
+  return (
+    <div
+      key={annotation.id}
+      className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-4"
+    >
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+          {annotation.title}
+        </h2>
+        <button
+          aria-label="Delete annotation"
+          className="text-red-500 hover:text-red-700"
+          onClick={() => onDelete(annotation.id)}
+        >
+          {/* SVG icon */} X
+        </button>
+      </div>
+      <p className="text-gray-700 dark:text-gray-300 mb-4">
+        {annotation.text}
+      </p>
+      <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-end">
+        {new Date(annotation.updated_at).toLocaleString()}
+      </div>
+    </div>
+  );
+}
+
 export default function RowAnnotations({user}: {user: User, renderAnnotations: boolean}) {
 
     const {requestConfirm} = useConfirmDialog();
@@ -35,32 +63,27 @@ export default function RowAnnotations({user}: {user: User, renderAnnotations: b
 
 
     const loadAnnotations = () => {
-        return dataAnnotations?.map((annotation: any, index) => {
-            return <>
-                <div className={"block bg-gray-100 p-2 m-4 my-2 "}
-                key={annotation.text + index.toString()}>
-                    <div className="flex grid grid-cols-2">
-                        <div className="flex text-xl text-black">
-                            {annotation.title}
-                        </div>
-                        <button className="flex justify-end mr-4 text-red-500" onClick={() => deleteAnnotation(annotation.id)}>
-                            X
-                        </button>
-                    </div>
-                    <div className="p-4 text-xl">
-                        {annotation.text}
-                    </div>
-                    <div className="text-sm w-full flex justify-end">
-                        {annotation.updated_at}
-                    </div>
-                </div>
-            </>
-        })
-    }
+      if (!dataAnnotations || dataAnnotations.length === 0) {
+        return (
+          <div className="text-center text-gray-500 dark:text-gray-400">
+            No annotations found.
+          </div>
+        );
+      }
+
+      return dataAnnotations.map((annotation: any) => (
+        <AnnotationCard
+          key={annotation.id}
+          annotation={annotation}
+          onDelete={deleteAnnotation}
+        />
+      ));
+    };
+
 
     return <>
         <div className="justify-center">
-            <div className="mt-28 w-4/6 ml-20 md:ml-48">
+            <div className="mt-12 md:mt-28 w-5/6 mx-auto md:mx-24 ml-7 md:ml-48">
                 <AnnotationForm user={user}/>
             </div>
             <div className="w-5/6 mx-auto md:mx-24 ">

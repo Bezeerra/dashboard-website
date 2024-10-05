@@ -2,7 +2,7 @@ import {ApiHelper} from "./ApiHelper.ts";
 
 
 export class ApiAnnotation{
-    static async getAnnotations({user_id}: {user_id: string}){
+    static async getAnnotationByUser(user_id: string){
         return await ApiHelper.get(`/annotations/${user_id}`)
     }
 

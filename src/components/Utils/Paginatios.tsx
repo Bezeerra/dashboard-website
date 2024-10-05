@@ -2,6 +2,7 @@ import {useState} from "react";
 
 
 export default function PaginatedTable({items, itemsPerPage=10}: any){
+    console.log("Items", items)
 
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = items.length;
