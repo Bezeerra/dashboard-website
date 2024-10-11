@@ -1,11 +1,18 @@
+// @ts-ignore
+
 import {Form, Input, SubmitButton, TextArea} from "../Utils/DefaultComponents.tsx";
-import {useForm} from "react-hook-form";
+import {set, useForm} from "react-hook-form";
 import {ApiAnnotation} from "../../api/ApiAnnotation.ts";
 import {User} from "../../types/User.ts";
 import {useQueryClient} from "react-query";
 import {useConfirmDialog} from "../Utils/ConfirmSubmit.tsx";
 import {AxiosError} from "axios";
 import {handleHookFormErrors} from "../Utils/handleErrors.ts";
+// import RichEditor from "../../utils/editor/Editor.tsx";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import Editor from "../../utils/Editor.tsx";
+import {useState} from "react";
 
 
 interface AnnotationFormProps{
@@ -20,14 +27,17 @@ export default function AnnotationForm({user}: {user: User}) {
     const methods = useForm<AnnotationFormProps>();
     const {setError} = methods;
     const queryClient = useQueryClient();
-    const { requestConfirm } = useConfirmDialog();
+    const {requestConfirm} = useConfirmDialog();
+    const [content, setContent] = useState({})
+
+
 
     const onSubmit = (data: any) => {
         const submitAnnotation = () => {
             ApiAnnotation.createAnnotation({
                 user_id: user.id!,
                 title: data.title,
-                text: data.text
+                text: content
             }).then(async () => {
                 await queryClient.invalidateQueries("annotationsRow")
             }).catch((error: AxiosError) => {
@@ -39,35 +49,36 @@ export default function AnnotationForm({user}: {user: User}) {
         return requestConfirm(() => submitAnnotation())
     }
 
-    return <>
-        <div className=" ">
-            <Form methods={methods} onSubmit={onSubmit}
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 max-w-4xl mb-4">
-                <div className="mb-4">
-                 <Input
-                  name="title"
-                  label="Title"
-                  classInput="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  classLabel="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2"
-                  placeholder="Title Annotation"
-                />
-              </div>
-              <div className="mb-4">
-                <TextArea
-                  name="text"
-                  label="Text"
-                  classInput="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  classLabel="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2"
-                  placeholder="Text Annotation"
-                />
-              </div>
-              <div className="w-full flex justify-end">
-                <SubmitButton className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                  Create Annotation
-                </SubmitButton>
-              </div>
-            </Form>
-        </div>
-    </>
+    return (
+        <>
+            <div className="flex justify-center items-center dark:bg-gray-900 p-4">
+                <Form
+                    methods={methods}
+                    onSubmit={onSubmit}
+                    className="w-full max-w-2xl bg-white dark:bg-gray-800 shadow-lg rounded-lg px-8 py-10"
+                >
+                    <div className="mb-6">
+                        <Input
+                            name="title"
+                            label="Title"
+                            classInput="shadow appearance-none border border-gray-300 dark:border-gray-600 rounded w-full py-3 px-4 text-gray-700 dark:text-gray-300 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            type="text"
+                            classLabel="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2"
+                            placeholder="Title Annotation"
+                        />
+                    </div>
+                    <div className="mb-6">
+                        <Editor setContent={(editor) => setContent(editor)} />
+                    </div>
+                    <div className="w-full flex justify-end">
+                        <SubmitButton
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out">
+                            Create Annotation
+                        </SubmitButton>
+                    </div>
+
+                </Form>
+            </div>
+        </>
+    )
 }

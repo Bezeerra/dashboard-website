@@ -5,6 +5,7 @@ import PaginatedTable from "../Utils/Paginatios.tsx";
 import {useConfirmDialog} from "../Utils/ConfirmSubmit.tsx";
 import {ApiAnnotation} from "../../api/ApiAnnotation.ts";
 import {useQueryClient} from "react-query";
+import Editor from "../../utils/Editor.tsx";
 
 
 function AnnotationCard({ annotation, onDelete }: any) {
@@ -26,7 +27,7 @@ function AnnotationCard({ annotation, onDelete }: any) {
         </button>
       </div>
       <p className="text-gray-700 dark:text-gray-300 mb-4">
-        {annotation.text}
+          <Editor setContent={() => {}} content={annotation.content} isEditable={false}/>
       </p>
       <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-end">
         {new Date(annotation.updated_at).toLocaleString()}
@@ -64,11 +65,11 @@ export default function RowAnnotations({user}: {user: User, renderAnnotations: b
 
     const loadAnnotations = () => {
       if (!dataAnnotations || dataAnnotations.length === 0) {
-        return (
+        return [(
           <div className="text-center text-gray-500 dark:text-gray-400">
             No annotations found.
           </div>
-        );
+        )]
       }
 
       return dataAnnotations.map((annotation: any) => (
@@ -81,14 +82,16 @@ export default function RowAnnotations({user}: {user: User, renderAnnotations: b
     };
 
 
-    return <>
-        <div className="justify-center">
-            <div className="mt-12 md:mt-28 w-5/6 mx-auto md:mx-24 ml-7 md:ml-48">
-                <AnnotationForm user={user}/>
+    return (
+        <>
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <div className="mt-12 md:mt-28 w-5/6 md:w-3/4">
+                    <AnnotationForm user={user} />
+                </div>
+                <div className="mt-8 w-5/6 md:w-3/4">
+                    <PaginatedTable items={loadAnnotations()} itemsPerPage={5} />
+                </div>
             </div>
-            <div className="w-5/6 mx-auto md:mx-24 ">
-                <PaginatedTable items={loadAnnotations()} itemsPerPage={5}/>
-            </div>
-        </div>
         </>
+    );
 }

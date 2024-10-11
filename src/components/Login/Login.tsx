@@ -18,10 +18,10 @@ export default function Login() {
         ApiUser.signIn({
             email: data.email,
             password: data.password
-        }).then((res) => {
+        }).then(async (res) => {
                 console.log("Alert Successfully Created", res);
                 auth.setToken(res.data.token)
-                auth.validateToken()
+                await auth.validateToken()
                 navigate('/');
         }).catch((error) => {
                 console.log(error);

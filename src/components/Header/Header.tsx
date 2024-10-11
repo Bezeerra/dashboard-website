@@ -1,13 +1,14 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../contexts/Auth/AuthContext";
+import {useConfirmDialog} from "../Utils/ConfirmSubmit.tsx";
 
 
 export default function HeaderBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const {user, setToken} = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const {requestConfirm} = useConfirmDialog();
     const colorSet = localStorage.getItem('color');
 
     const [color, setColor] = useState(colorSet || "white");
@@ -50,11 +51,11 @@ export default function HeaderBar() {
                 <button className="md:hidden p-2 rounded focus:outline-none focus:ring dark:text-white text-white"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}>Menu</button>
                 {isMenuOpen && (
-                    <div className="absolute top-16 right-8 w-40 bg-gray-100 rounded dark:text-white text-black shadow-md mt-2 py-2 md:hidden">
-                        <Link to={"/"} className="block dark:text-white text-black px-4 py-2 hover:bg-gray-200">Home</Link>
-                        {user && <button onClick={async () => await handleLogout()} className="xterm-cursor-pointer text-black dark:text-white block px-4 py-2 hover:bg-gray-200">Logout</button>}
-                        <Link to={"/my-account"} className="block dark:text-white text-black px-4 py-2 hover:bg-gray-200">My Account</Link>
-                        <Link to={"https://github.com/Bezeerra"} target="_blank" className="dark:text-white text-black block px-4 py-2 hover:bg-gray-200">GitHub</Link>
+                    <div className="absolute top-16 right-8 w-40 bg-gray-100 rounded dark:text-white dark:bg-gray-700 text-black shadow-md mt-2 py-2 md:hidden">
+                        <Link to={"/"} className="block dark:text-white text-black dark:hover:bg-gray-600 px-4 py-2 hover:bg-gray-200">Home</Link>
+                        {user && <button onClick={async () => requestConfirm(async () => await handleLogout())} className="xterm-cursor-pointer dark:hover:bg-gray-600 text-black dark:text-white block px-4 py-2 hover:bg-gray-200">Logout</button>}
+                        <Link to={"/my-account"} className="block dark:text-white text-black px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600">My Account</Link>
+                        <Link to={"https://github.com/Bezeerra"} target="_blank" className="dark:text-white text-black block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600">GitHub</Link>
                     </div>
                 )}
             </nav>

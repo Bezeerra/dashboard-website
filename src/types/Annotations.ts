@@ -6,4 +6,6 @@ export type Annotation = {
     annotation: string;
     created_at: string;
     updated_at: string;
+    full_text: string;
+    content: any;
 }

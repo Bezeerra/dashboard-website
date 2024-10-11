@@ -2,7 +2,6 @@ import {useState} from "react";
 
 
 export default function PaginatedTable({items, itemsPerPage=10}: any){
-    console.log("Items", items)
 
     const [currentPage, setCurrentPage] = useState(1);
     const totalItems = items.length;
@@ -10,7 +9,7 @@ export default function PaginatedTable({items, itemsPerPage=10}: any){
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    const currentItems = items.slice(startIndex, endIndex);
+    const currentItems = items?.slice(startIndex, endIndex);
     const handleNext = () => {
         setCurrentPage((currentPage) => Math.min(currentPage + 1, totalPages));
     }
@@ -19,7 +18,7 @@ export default function PaginatedTable({items, itemsPerPage=10}: any){
         setCurrentPage((currentPage) => Math.max(currentPage - 1, 1));
     }
 
-    return <div className="relative flex w-full  flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
+    return <div className=" rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
         <div className="bg-gray-200 rounded ">
             <div className="bg-gray-100 py-4">
                 <div className="ml-8"> Paginate Annotations: {totalItems}</div>
@@ -28,11 +27,9 @@ export default function PaginatedTable({items, itemsPerPage=10}: any){
                 No items
             </div>}
             {currentItems.map((item: any, index: number) => {
-                return <>
-                    <div key={index}>
+                return <div key={index} className="p-2">
                         {item}
-                    </div>
-                </>
+                </div>
             })}
         </div>
         <div className="w-full grid grid-cols-2 mb-24">

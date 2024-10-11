@@ -6,7 +6,7 @@ export class ApiAnnotation{
         return await ApiHelper.get(`/annotations/${user_id}`)
     }
 
-    static async createAnnotation({user_id, title, text}: {user_id: string, title: string, text: string}) {
+    static async createAnnotation({user_id, title, text}: {user_id: string, title: string, text: any}) {
         return await ApiHelper.post('/annotations', {
             user_id: user_id,
             title: title,
