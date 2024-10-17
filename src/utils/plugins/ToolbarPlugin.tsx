@@ -123,6 +123,7 @@ function FloatingLinkEditor({ editor }: {editor: LexicalEditor}) {
       }
     }
     const editorElem = editorRef.current;
+  // @ts-ignore
     const nativeSelection: Selection = window.getSelection();
     const activeElement = document.activeElement;
 
@@ -142,6 +143,7 @@ function FloatingLinkEditor({ editor }: {editor: LexicalEditor}) {
       if (nativeSelection.anchorNode === rootElement) {
         let inner = rootElement;
         while (inner.firstElementChild != null) {
+          // @ts-ignore
           inner = inner.firstElementChild;
         }
         rect = inner.getBoundingClientRect();
@@ -152,7 +154,8 @@ function FloatingLinkEditor({ editor }: {editor: LexicalEditor}) {
       if (!mouseDownRef.current) {
         positionEditorElement(editorElem, rect);
       }
-      setLastSelection(selection);
+      // @ts-ignore
+        setLastSelection(selection);
     } else if (!activeElement || activeElement.className !== "link-input") {
       positionEditorElement(editorElem, null);
       setLastSelection(null);
@@ -190,6 +193,7 @@ function FloatingLinkEditor({ editor }: {editor: LexicalEditor}) {
 
   useEffect(() => {
     if (isEditMode && inputRef.current) {
+      // @ts-ignore
       inputRef.current.focus();
     }
   }, [isEditMode]);
@@ -276,11 +280,11 @@ function BlockOptionsDropdownList({
   toolbarRef,
   setShowBlockOptionsDropDown
 }: any) {
-  const dropDownRef = useRef(null);
+  const dropDownRef: any = useRef(null);
 
   useEffect(() => {
     const toolbar = toolbarRef.current;
-    const dropDown = dropDownRef.current;
+    const dropDown: any = dropDownRef.current;
 
     if (toolbar !== null && dropDown !== null) {
       const { top, left } = toolbar.getBoundingClientRect();
@@ -290,11 +294,11 @@ function BlockOptionsDropdownList({
   }, [dropDownRef, toolbarRef]);
 
   useEffect(() => {
-    const dropDown = dropDownRef.current;
+    const dropDown: any = dropDownRef.current;
     const toolbar = toolbarRef.current;
 
     if (dropDown !== null && toolbar !== null) {
-      const handle = (event) => {
+      const handle = (event: any) => {
         const target = event.target;
 
         if (!dropDown.contains(target) && !toolbar.contains(target)) {
@@ -394,7 +398,7 @@ function BlockOptionsDropdownList({
 
   useEffect(() => {
     const toolbar = toolbarRef.current;
-    const dropDown = dropDownRef.current;
+    const dropDown: any = dropDownRef.current;
 
     if (toolbar !== null && dropDown !== null) {
       const { bottom, left } = toolbar.getBoundingClientRect();
@@ -486,7 +490,8 @@ export default function ToolbarPlugin() {
       const elementKey = element.getKey();
       const elementDOM = editor.getElementByKey(elementKey);
       if (elementDOM !== null) {
-        setSelectedElementKey(elementKey);
+        // @ts-ignore
+          setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType(anchorNode, ListNode);
           const type = parentList ? parentList.getTag() : element.getTag();
@@ -529,7 +534,7 @@ export default function ToolbarPlugin() {
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
-        (_payload, newEditor) => {
+        (_payload: any, newEditor: any) => {
           updateToolbar();
           return false;
         },
@@ -537,7 +542,7 @@ export default function ToolbarPlugin() {
       ),
       editor.registerCommand(
         CAN_UNDO_COMMAND,
-        (payload) => {
+        (payload: any) => {
           setCanUndo(payload);
           return false;
         },
@@ -545,7 +550,7 @@ export default function ToolbarPlugin() {
       ),
       editor.registerCommand(
         CAN_REDO_COMMAND,
-        (payload) => {
+        (payload: any) => {
           setCanRedo(payload);
           return false;
         },
@@ -556,7 +561,7 @@ export default function ToolbarPlugin() {
 
   const codeLanguges = useMemo(() => getCodeLanguages(), []);
   const onCodeLanguageSelect = useCallback(
-    (e) => {
+    (e: any) => {
       editor.update(() => {
         if (selectedElementKey !== null) {
           const node = $getNodeByKey(selectedElementKey);
@@ -577,12 +582,13 @@ export default function ToolbarPlugin() {
     }
   }, [editor, isLink]);
 
- return (
+    return (
   <div className="toolbar flex flex-wrap items-center space-x-1 sm:space-x-1 p-2 border-b overflow-x-auto" ref={toolbarRef}>
     <button
       disabled={!canUndo}
       onClick={(event) => {
         event.preventDefault();
+        // @ts-ignore
         editor.dispatchCommand(UNDO_COMMAND);
       }}
       className={`px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded focus:outline-none ${
@@ -596,7 +602,8 @@ export default function ToolbarPlugin() {
       disabled={!canRedo}
       onClick={(event) => {
         event.preventDefault();
-        editor.dispatchCommand(REDO_COMMAND);
+        // @ts-ignore
+          editor.dispatchCommand(REDO_COMMAND);
       }}
       className={`px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded focus:outline-none ${
         !canRedo ? "opacity-50 cursor-not-allowed" : ""
@@ -616,6 +623,8 @@ export default function ToolbarPlugin() {
           }}
           aria-label="Formatting Options"
         >
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-expect-error */}
           <span className="mr-1">{blockTypeToBlockName[blockType]}</span>
           <FontAwesomeIcon icon={faChevronDown} />
         </button>

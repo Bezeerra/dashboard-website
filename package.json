@@ -23,6 +23,7 @@
     "@lexical/table": "^0.18.0",
     "@lexical/utils": "^0.18.0",
     "axios": "^1.6.2",
+    "dotenv": "^16.4.5",
     "fontawesome": "^5.6.3",
     "fortawesome": "^0.0.1-security",
     "lexical": "^0.18.0",
@@ -33,6 +34,8 @@
     "react-router-dom": "^6.20.1"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@types/node": "^22.7.6",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -45,7 +48,7 @@
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.4.9"
   },
   "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39"
 }

@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: static-website-service
+spec:
+  selector:
+    app: static-website
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-website
+spec:
+  selector:
+    matchLabels:
+      app: static-website
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: static-website
+    spec:
+      containers:
+      - name: static-website
+        image: "gcr.io/semiotic-joy-438622-r2/dashboard-website:latest"
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: config-map-dashboard-website
+      nodeSelector:
+        type: t3

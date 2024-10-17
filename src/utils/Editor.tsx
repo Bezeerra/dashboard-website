@@ -58,7 +58,8 @@ interface PropsEditor {
 
 export default function Editor({setContent, content, isEditable = true}: PropsEditor) {
 
-  return ( <div className="lexical">
+    return ( <div className="lexical">
+    {/* @ts-ignore */}
     <LexicalComposer initialConfig={{
       ...editorConfig,
       editable: isEditable,

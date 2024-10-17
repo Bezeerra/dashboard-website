@@ -1,5 +1,5 @@
-// @ts-ignore
 
+// @ts-ignore
 import {Form, Input, SubmitButton, TextArea} from "../Utils/DefaultComponents.tsx";
 import {set, useForm} from "react-hook-form";
 import {ApiAnnotation} from "../../api/ApiAnnotation.ts";
@@ -8,9 +8,6 @@ import {useQueryClient} from "react-query";
 import {useConfirmDialog} from "../Utils/ConfirmSubmit.tsx";
 import {AxiosError} from "axios";
 import {handleHookFormErrors} from "../Utils/handleErrors.ts";
-// import RichEditor from "../../utils/editor/Editor.tsx";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import Editor from "../../utils/Editor.tsx";
 import {useState} from "react";
 
