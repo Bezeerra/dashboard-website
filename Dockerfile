@@ -6,9 +6,11 @@ RUN npm install -g corepack \
     && corepack prepare yarn@4.5.0 --activate
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+#COPY package.json yarn.lock ./
 COPY . .
+
+RUN yarn install --frozen-lockfile
+
 RUN yarn build
 
 FROM nginx:alpine
